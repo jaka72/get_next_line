@@ -6,7 +6,7 @@
 /*   By: jmurovec <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/20 22:27:48 by jmurovec      #+#    #+#                 */
-/*   Updated: 2020/12/20 22:27:48 by jmurovec      ########   odam.nl         */
+/*   Updated: 2021/10/25 13:21:22 by jmurovec      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,19 @@ int			get_next_line(int fd, char **line)
 {
 	int			bytes_read;
 	char		buff[BUFFER_SIZE + 1];
-	static char	*str[1024];
+	static char	*str;
 
 	if (fd < 0 || BUFFER_SIZE == 0 || line == NULL)
 		return (-1);
-	if (str[fd] == NULL || !gnl_strchr(str[fd], '\n'))
-		bytes_read = buff_to_str(fd, 1, buff, &str[fd]);
+	if (str == NULL || !gnl_strchr(str, '\n'))
+		bytes_read = buff_to_str(fd, 1, buff, &str);
 	else
 		bytes_read = 0;
 	if (bytes_read < 0)
 		return (-1);
-	if (str_to_line(&str[fd], line) < 0)
+	if (str_to_line(&str, line) < 0)
 		return (-1);
-	if (bytes_read == 0 && str[fd] == NULL)
+	if (bytes_read == 0 && str == NULL)
 		return (0);
 	return (1);
 }
